@@ -6,7 +6,39 @@
     <title>Task Board</title>
 </head>
 <body>
-<div class="">
+<div class="header">
+    {% block header %}
+        {% if user.is_authenticated %}
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'logout' %}">Logout</a>
+                <a href="{% url 'tasks' %}">
+                    {% if not user.is_superuser %}
+                        My Tasks
+                    {% else %}
+                        All Tasks
+                    {% endif %}
+                </a>
+                <h2>
+                    {% if not user.is_superuser %}
+                        {{ user }}
+                    {% else %}
+                        ADMIN
+                    {% endif %}
+                </h2>
+
+        {% else %}
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'login' %}">Log In</a>
+            <a href="{% url 'register' %}">Sign up</a>
+            <p>User {{ user }}</p>
+        {%  endif %}
+    {% endblock %}
+</div>
+{% block content %}
+{% endblock %}
+
+{% block script %}
+{% endblock %}
 
 </body>
 </html>
