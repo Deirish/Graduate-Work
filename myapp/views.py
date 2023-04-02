@@ -2,7 +2,8 @@ from django.shortcuts import redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
-from myapp.forms import UserCreateForm
+from myapp.forms import UserCreateForm, TaskCreateForm
+from myapp.models import Column
 
 class SuperUserRequiredMixin(UserPassesTestMixin):
 
@@ -28,3 +29,22 @@ class NewUserView(CreateView):
         user = authenticate(username=username, password=password)
         login(self.request, user)
         return valid
+
+
+class TaskListView(LoginRequiredMixin, ListView):
+    model = Column
+    template_name = 'tasks.html'
+    extra_context = {'form': TaskCreateForm}
+
+    def get_queryset(self):
+        if not self.request.user.is_superuser:
+            queryset = Column.objects.filter(owner=self.request.user)
+            return queryset
+        queryset = Column.objects.all()
+        return queryset
+
+
+
+
+
+

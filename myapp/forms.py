@@ -21,3 +21,19 @@ class UserCreateForm(UserCreationForm):
             raise ValidationError('Email is already registered')
         return email
 
+
+class TaskCreateForm(forms.ModelForm):
+    text = forms.TextInput()
+
+    class Meta:
+        model = Column
+        fields = ['text']
+
+
+class TaskSearchForm(forms.ModelForm):
+    status = forms.ChoiceField(choices=Column.ColumnNames, label='status')
+
+    class Meta:
+        model = Column
+        fields = ['status']
+        
