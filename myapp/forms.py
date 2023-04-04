@@ -5,6 +5,7 @@ from myapp.models import Column
 from django.core.exceptions import ValidationError
 
 
+
 class UserCreateForm(UserCreationForm):
     username = forms.CharField(label='Login', widget=forms.TextInput)
     email = forms.EmailField(widget=forms.EmailInput)
@@ -31,9 +32,24 @@ class TaskCreateForm(forms.ModelForm):
 
 
 class TaskSearchForm(forms.ModelForm):
-    status = forms.ChoiceField(choices=Column.ColumnNames, label='status')
+    status = forms.ChoiceField(choices=Column, label='status_task')
 
     class Meta:
         model = Column
         fields = ['status']
-        
+
+
+class TaskChangeForm(forms.ModelForm):
+    executor = forms.ModelChoiceField(queryset=User.objects.all(), label='Executor', blank=True, required=False)
+
+    def _init_(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(TaskChangeForm, self)._init_(*args, **kwargs)
+        if user and user.is_authenticated and not user.is_superuser:
+            self.fields['executor'].queryset = User.objects.filter(id=user.id)
+
+    class Meta:
+        model = Column
+        fields = ['text', 'executor']
+
+
