@@ -16,9 +16,9 @@
         <h3>{{ obj.text }}</h3>
         <p>Last update was {{ obj.date_update }} {{ obj.id }}</p>
         {% if user.is_authenticated %}
-        <form method="get" action="{% url 'update' obj.id %}" class="update">
+        <form method="get" action="{% url 'change' obj.id %}" class="change">
             {% csrf_token %}
-            <button type="submit">Update</button>
+            <button type="submit">Change</button>
         </form>
         {% if not user.is_superuser and obj.status > 1 and obj.status != 5 or
         user.is_superuser and obj.status == 5 %}

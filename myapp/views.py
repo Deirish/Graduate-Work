@@ -79,10 +79,10 @@ class TaskSearchView(LoginRequiredMixin, ListView):
         return queryset
 
 
-class TaskUpdateView(LoginRequiredMixin, UserFormMixin):
+class TaskChangeView(LoginRequiredMixin, UserFormMixin):
     model = Column
     form_class = TaskChangeForm
-    tamplate_name = 'task_update.html'
+    template_name = 'task_update.html'
     succes_url = '/tasks'
 
 
