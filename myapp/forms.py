@@ -1,7 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from myapp.models import Column
+from django.db.models import F
+from myapp.models import Column, TASK
 from django.core.exceptions import ValidationError
 
 
@@ -32,7 +33,7 @@ class TaskCreateForm(forms.ModelForm):
 
 
 class TaskSearchForm(forms.ModelForm):
-    status = forms.ChoiceField(choices=Column, label='status_task')
+    status = forms.ChoiceField(choices=TASK, label='status_task')
 
     class Meta:
         model = Column
@@ -51,5 +52,59 @@ class TaskChangeForm(forms.ModelForm):
     class Meta:
         model = Column
         fields = ['text', 'executor']
+
+
+class TaskUpForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(TaskUpForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = Column
+        fields = ()
+
+    def save(self, commit=True):
+        response = super().save(commit=False)
+        user = self.user
+        if user and user.is_authenticated and (not user.is_superuser and response.owner == response.executor and
+                 response.status > 1 and response.status != 5 or
+                 user.is_superuser and response.status == 5):
+            response.status = F('status') - 1
+            if commit:
+                response.save()
+                self.save_m2m()
+            return response
+
+
+class TaskDownForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(TaskDownForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = Column
+        fields = ()
+
+    def save(self, commit=True):
+        response = super().save(commit=False)
+        user = self.user
+        if user and user.is_authenticated and \
+                (not user.is_superuser and response.owner == response.executor and
+                 response.status > 1 and response.status != 5 or
+                 user.is_superuser and response.status == 5):
+            response.status = F('status') - 1
+        if commit:
+            response.save()
+            self.save_m2m()
+        return response
+
+
+
+
+
+
+
+
 
 

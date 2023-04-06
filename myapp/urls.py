@@ -1,7 +1,8 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 
-from myapp.views import HomeView, NewUserView, TaskListView, TaskCreateView, TaskSearchView
+from myapp.views import HomeView, NewUserView, TaskListView, TaskCreateView, TaskSearchView, TaskUpdateView, \
+    TaskDownView, TaskUpView, TaskDeleteView
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
@@ -11,7 +12,9 @@ urlpatterns = [
     path('tasks/', TaskListView.as_view(), name='tasks'),
     path('task_create/', TaskCreateView.as_view() , name='task_create'),
     path('task_search/', TaskSearchView.as_view(), name='task_search'),
-    # path('task_update/', , name='update'),
-    # path('task_down/<int:pk>/', , name='task_down')
+    path('tasks/task_update/<int:pk>/', TaskUpdateView.as_view(), name='update'),
+    path('tasks/task_up/<int:pk>/', TaskUpView.as_view(), name='up'),
+    path('tasks/task_down/<int:pk>/', TaskDownView.as_view() , name='down'),
+    path('tasks/task_delete/<int:pk>/', TaskDeleteView.as_view(), name='delete')
 
 ]

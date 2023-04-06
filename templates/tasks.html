@@ -13,57 +13,38 @@
         </form>
 
         {% for obj in object_list %}
-            <div class="object_task" data-status = {{ obj.status_task }}>
-                <h3>{{ obj.text }}</h3>
-                <p>Last update was {{ obj.date_update }} {{ obj.id }}</p>
-                {% if user.is_authenticated %}
-                    <form method="get" action="{% url 'task_update' obj.id %}" class="update">
-                        {% csrf_token %}
-                        <button type="submit">Update</button>
-                    </form>
-                    {% if not user.is_superuser and obj.status_task > new and obj.status_task != done or
-                    user.is_superuser and obj.status_task == 5 %}
-                        <form method="post" action="{% url 'task_down' obj.id %}">
-                            {% csrf_token %}
-                            <button type="submit">Task Down</button>
-                        </form>
-                    {% endif %}
-                    {% if not user.is_superuser and obj.status_task < ready or user.is_superuser and obj.status_task ==
-                    ready %}
-                        <form method="post" action="{% url 'task_up' obj.id %}">
-                            {% csrf_token %}
-                            <button type="submit">Task Up</button>
-                        </form>
+        <h3>{{ obj.text }}</h3>
+        <p>Last update was {{ obj.date_update }} {{ obj.id }}</p>
+        {% if user.is_authenticated %}
+        <form method="get" action="{% url 'update' obj.id %}" class="update">
+            {% csrf_token %}
+            <button type="submit">Update</button>
+        </form>
+        {% if not user.is_superuser and obj.status > 1 and obj.status != 5 or
+        user.is_superuser and obj.status == 5 %}
+        <form method="post" action="{% url 'down' obj.id %}">
+            {% csrf_token %}
+            <button type="submit">Task Down</button>
+        </form>
+        {% endif %}
+        {% if not user.is_superuser and obj.status < 4 or user.is_superuser and obj.status ==
+        4 %}
+        <form method="post" action="{% url 'up' obj.id %}">
+            {% csrf_token %}
+            <button type="submit">Task Up</button>
+        </form>
 
-                    <p>Task status now: {{ obj.status_task }}</p>
-                    {% if user.is_superuser %}
-                        <form method="Post" action="{% url 'task_delete' obj.id %}">
-                            {% csrf_token %}
-                            <button type="submit">Delete</button>
-                        </form>
-                    {% endif %}
-
-            </div>
+        <p>Task status now: {{ obj.status }}</p>
+        {% if user.is_superuser %}
+        <form method="Post" action="{% url 'delete' obj.id %}">
+            {% csrf_token %}
+            <button type="submit">Delete</button>
+        </form>
+        {% endif %}
         {% endfor %}
     </div>
 {% endblock %}
 
-{% block script %}
-    <script>
-        let all_status = {
-            new: 'New'
-            inProgress: 'In Progress'
-            inQA: 'In QA'
-            ready: 'Ready'
-            done: 'Done'
-            }
-        let object_tasks = document.querySelectorAll('.object_task')
-        for (let i = 0; i < object_tasks.length; i++){
-            let status_task = all_status[object_tasks[i].dataset['status']]
-            console.log(status)
-            object_tasks[i].classList.add(status)
-    </script>
-{% endblock %}
 
 
 
