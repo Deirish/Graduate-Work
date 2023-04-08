@@ -43,9 +43,9 @@ class TaskSearchForm(forms.ModelForm):
 class TaskChangeForm(forms.ModelForm):
     executor = forms.ModelChoiceField(queryset=User.objects.all(), label='Executor', blank=True, required=False)
 
-    def _init_(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
-        super(TaskChangeForm, self)._init_(*args, **kwargs)
+        super(TaskChangeForm, self).__init__(*args, **kwargs)
         if user and user.is_authenticated and not user.is_superuser:
             self.fields['executor'].queryset = User.objects.filter(id=user.id)
 

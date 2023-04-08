@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
+{% block title %}Task Change{% endblock %}
 {% block content %}
+    <div class="form">
+    <h2>Task Change</h2>
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Task Update</button>
+        <button type="submit">Task Change</button>
     </form>
+    </div>
 {% endblock %}

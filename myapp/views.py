@@ -42,7 +42,7 @@ class NewUserView(CreateView):
 class TaskListView(LoginRequiredMixin, ListView):
     model = Column
     template_name = 'tasks.html'
-    extra_context = {'form': TaskCreateForm}
+    extra_context = {'form': TaskCreateForm, 'form1': TaskSearchForm}
 
     def get_queryset(self):
         if not self.request.user.is_superuser:
@@ -50,19 +50,6 @@ class TaskListView(LoginRequiredMixin, ListView):
             return queryset
         queryset = Column.objects.all()
         return queryset
-
-
-class TaskCreateView(CreateView):
-    template_name = 'tasks.html'
-    http_method_names = ['post']
-    form_class = TaskCreateForm
-    success_url = '/tasks'
-
-    def form_valid(self, form):
-        obj = form.save(commit=False)
-        obj.owner = self.request.user
-        obj.save()
-        return super().form_valid(form)
 
 
 class TaskSearchView(LoginRequiredMixin, ListView):
@@ -79,11 +66,29 @@ class TaskSearchView(LoginRequiredMixin, ListView):
         return queryset
 
 
+class TaskCreateView(CreateView):
+    template_name = 'tasks.html'
+    http_method_names = ['post']
+    form_class = TaskCreateForm
+    success_url = '/tasks'
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.owner = self.request.user
+        obj.save()
+        return super().form_valid(form)
+
+
+class TaskDeleteView(SuperUserRequiredMixin, DeleteView):
+    model = Column
+    succes_url = reverse_lazy('tasks')
+
+
 class TaskChangeView(LoginRequiredMixin, UserFormMixin):
     model = Column
     form_class = TaskChangeForm
     template_name = 'task_update.html'
-    succes_url = '/tasks'
+    succes_url = reverse_lazy('tasks')
 
 
 class TaskUpView(LoginRequiredMixin, UserFormMixin):
@@ -100,9 +105,7 @@ class TaskDownView(LoginRequiredMixin, UserFormMixin):
     template_name = 'tasks.html'
 
 
-class TaskDeleteView(SuperUserRequiredMixin, DeleteView):
-    model = Column
-    succes_url = reverse_lazy('tasks')
+
 
 
 
