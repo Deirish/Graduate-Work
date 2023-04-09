@@ -81,27 +81,27 @@ class TaskCreateView(CreateView):
 
 class TaskDeleteView(SuperUserRequiredMixin, DeleteView):
     model = Column
-    succes_url = reverse_lazy('tasks')
+    success_url = reverse_lazy('tasks')
 
 
 class TaskChangeView(LoginRequiredMixin, UserFormMixin):
     model = Column
     form_class = TaskChangeForm
     template_name = 'task_update.html'
-    succes_url = reverse_lazy('tasks')
+    success_url = reverse_lazy('tasks')
 
 
 class TaskUpView(LoginRequiredMixin, UserFormMixin):
     model = Column
     form_class = TaskUpForm
-    succes_url = reverse_lazy('tasks')
+    success_url = reverse_lazy('tasks')
     template_name = 'tasks.html'
 
 
 class TaskDownView(LoginRequiredMixin, UserFormMixin):
     model = Column
     form_class = TaskDownForm
-    succes_url = reverse_lazy('tasks')
+    success_url = reverse_lazy('tasks')
     template_name = 'tasks.html'
 
 

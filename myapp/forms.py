@@ -68,12 +68,11 @@ class TaskUpForm(forms.ModelForm):
         response = super().save(commit=False)
         user = self.user
         if user and user.is_authenticated and (not user.is_superuser and response.owner == response.executor and
-                 response.status > 1 and response.status != 5 or
-                 user.is_superuser and response.status == 5):
-            response.status = F('status') - 1
-            if commit:
-                response.save()
-                self.save_m2m()
+                 response.status < 4 or user.is_superuser and response.status == 4):
+            response.status = F('status') + 1
+        if commit:
+            response.save()
+            self.save_m2m()
             return response
 
 

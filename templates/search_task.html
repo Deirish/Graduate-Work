@@ -10,30 +10,30 @@
                 <h3>{{ obj.text }}</h3>
                 <p>Last update was {{ obj.date_update }} {{ obj.id }}</p>
                 {% if user.is_authenticated %}
-                <form method="get" action="{% url 'change' obj.id %}" class="change">
-                    {% csrf_token %}
-                    <button type="submit">Change</button>
-                </form>
-                {% if not user.is_superuser and obj.status > 1 and obj.status != 5 or
-                user.is_superuser and obj.status == 5 %}
-                <form method="post" action="{% url 'down' obj.id %}">
-                    {% csrf_token %}
-                    <button type="submit">Task Down</button>
-                </form>
-                {% endif %}
-                {% if not user.is_superuser and obj.status < 4 or user.is_superuser and obj.status == 4 %}
-                <form method="post" action="{% url 'up' obj.id %}">
-                    {% csrf_token %}
-                    <button type="submit">Task Up</button>
-                </form>
-                {% endif %}
-                <p>Task status now: {{ obj.status }}</p>
-                {% if user.is_superuser %}
-                <form method="Post" action="{% url 'delete' obj.id %}">
-                    {% csrf_token %}
-                    <button type="submit">Delete</button>
-                </form>
-                {% endif %}
+                    <form method="get" action="{% url 'change' obj.id %}" class="change">
+                        {% csrf_token %}
+                        <button type="submit">Change</button>
+                    </form>
+                    {% if not user.is_superuser and obj.status > 1 and obj.status != 5 or
+                    user.is_superuser and obj.status == 5 %}
+                        <form method="post" action="{% url 'down' obj.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Task Down</button>
+                        </form>
+                    {% endif %}
+                    {% if not user.is_superuser and obj.status < 4 or user.is_superuser and obj.status == 4 %}
+                        <form method="post" action="{% url 'up' obj.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Task Up</button>
+                        </form>
+                    {% endif %}
+                    <p>Task status now: {{ obj.status }}</p>
+                    {% if user.is_superuser %}
+                        <form method="Post" action="{% url 'delete' obj.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Delete</button>
+                        </form>
+                    {% endif %}
                 {% endif %}
             </div>
         {% endfor %}
