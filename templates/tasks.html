@@ -13,6 +13,7 @@
         </form>
 
         {% for obj in object_list %}
+        <div class="column">
         <div class="text">
         <h3>{{ obj.text }}</h3>
         <p>Last update was {{ obj.date_update }} {{ obj.id }}</p>
@@ -43,6 +44,7 @@
         </form>
         {% endif %}
         {% endfor %}
+        </div>
         </div>
     </div>
 {% endblock %}

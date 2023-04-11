@@ -4,14 +4,14 @@ body {
 }
 
 .header {
-    box-shadow: inset 0px 0px 5px 3px gray;
+    box-shadow: inset 0px 0px 6px 4px gray;
     background: white;
     flex-wrap: nowrap;
     display: flex;
     justify-content: space-around;
     align-items: center;
     width: 90%;
-    margin: 25px auto 35px;
+    margin: 30px auto 40px;
 }
 
 button {
@@ -49,16 +49,19 @@ a {
 
 }
 
-.text {
+.column {
     text-align: center;
-    background: white;
     padding: 10px 0px;
     margin-bottom: 10px ;
-    border: 2px solid gray;
-    box-shadow: inset 0px 0px 2px 1px gray;
+    border: 2px solid orange;
+    box-shadow: inset 0px 0px 5px 3px #ffa500;
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+
+.text {
+    color: #6c4a0a;
 }
 
 .task form {
@@ -71,7 +74,7 @@ a {
     color: #383838;
 }
 
-input {
+text. input {
     width: 90px;
 }
 

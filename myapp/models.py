@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.urls import reverse
 
 
 TASK = (
@@ -12,7 +11,6 @@ TASK = (
 )
 
 class Column(models.Model):
-
     owner = models.ForeignKey(User, related_name='Owner_tasks', verbose_name='Owner', on_delete=models.CASCADE)
     executor = models.ForeignKey(User, related_name='Executor_tasks', verbose_name='Executor', null=True, blank=True,
                                  on_delete=models.SET_NULL)
@@ -28,7 +26,3 @@ class Column(models.Model):
 
     def __str__(self):
         return self.text
-
-
-
-
