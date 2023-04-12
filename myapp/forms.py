@@ -33,7 +33,7 @@ class TaskCreateForm(forms.ModelForm):
 
 
 class TaskSearchForm(forms.ModelForm):
-    status = forms.ChoiceField(choices=TASK, label='status_task')
+    status = forms.ChoiceField(choices=TASK, label='Status task')
 
     class Meta:
         model = Column

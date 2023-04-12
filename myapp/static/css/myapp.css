@@ -52,9 +52,9 @@ a {
 .column {
     text-align: center;
     padding: 10px 0px;
-    margin-bottom: 10px ;
-    border: 2px solid orange;
-    box-shadow: inset 0px 0px 5px 3px #ffa500;
+    margin-bottom: 10px;
+    border: 2px solid gray;
+    box-shadow: inset 0px 0px 5px 3px gray;
     display: flex;
     justify-content: space-around;
     align-items: center;
