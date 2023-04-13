@@ -39,6 +39,6 @@ class TaskChangeAPIView(generics.RetrieveAPIView):
     serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticated, UserDefinition]
 
-    
+
 
 
