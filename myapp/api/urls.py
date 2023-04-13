@@ -1,11 +1,14 @@
 from django.urls import path
 from rest_framework.authtoken import views
 
-from myapp.api.resources import ColumnAPIView
+from myapp.api.resources import TaskAPIView, TaskCreateAPIView, TaskInfoAPIView
 
 
 urlpatterns = [
     path('api-token-auth/', views.obtain_auth_token),
-    path('tasks/', ColumnAPIView.as_view()),
+    path('tasks/', TaskAPIView.as_view()),
+    path('tasks/create', TaskCreateAPIView.as_view()),
+    path('tasks/<int:pk>', TaskInfoAPIView.as_view()),
+
 
 ]

@@ -2,12 +2,13 @@ from django.contrib.auth.models import User
 from rest_framework import generics, permissions
 from rest_framework.filters import SearchFilter, OrderingFilter
 
-from myapp.api.serializers import ColumnSerializer
+from myapp.api.serializers import TaskSerializer, TaskCreateSerializer
+from myapp.api.permissions import UserDefinition
 from myapp.models import Column
 
 
-class ColumnAPIView(generics.ListAPIView):
-    serializer_class = ColumnSerializer
+class TaskAPIView(generics.ListAPIView):
+    serializer_class = TaskSerializer
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['=status']
     permission_classes = [permissions.IsAuthenticated]
@@ -19,5 +20,25 @@ class ColumnAPIView(generics.ListAPIView):
             queryset = Column.object.filter(owner=user)
             return queryset
         return queryset
+
+
+class TaskCreateAPIView(generics.CreateAPIView):
+    queryset = Column.objects.all()
+    serializer_class = TaskCreateSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class TaskInfoAPIView(generics.RetrieveAPIView):
+    queryset = Column.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = [permissions.IsAuthenticated, UserDefinition]
+
+
+class TaskChangeAPIView(generics.RetrieveAPIView):
+    quryset = Column.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = [permissions.IsAuthenticated, UserDefinition]
+
+    
 
 

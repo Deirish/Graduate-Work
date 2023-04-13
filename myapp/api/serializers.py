@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from myapp.models import Column
 
 
-class ColumnSerializer(serializers.ModelSerializer):
+class TaskSerializer(serializers.ModelSerializer):
     status = serializers.CharField(source="get_status_display", read_only=True)
     owner = serializers.CharField(default=serializers.CurrentUserDefault(), read_only=True)
     executor = serializers.CharField(required=False, allow_null=True)
@@ -23,13 +23,13 @@ class ColumnSerializer(serializers.ModelSerializer):
             return data
 
 
-# class TaskCreateSerializer(serializers.ModelSerializer):
-#     owner = serializers.CharField(default=serializers.CurrentUserDefault())
-#
-#     class Meta:
-#         model = Column
-#         fields = ['id', 'owner', 'owner_id', 'status', 'text', 'executor', 'date_create']
-#
+class TaskCreateSerializer(serializers.ModelSerializer):
+    owner = serializers.CharField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = Column
+        fields = ['id', 'owner', 'owner_id', 'status', 'text', 'executor', 'date_create']
+
 #
 # class TaskChangeSerializer(serializers.ModelSerializer):
 #     owner = serializers.CharField(default=serializers.CurrentUserDefault(), read_only=True)
