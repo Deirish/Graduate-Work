@@ -127,7 +127,7 @@ STATIC_ROOT = [
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
-TIME_TOKEN = 60*60
+TIME_TOKEN = 60 * 1
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import generics, permissions
 from rest_framework.filters import SearchFilter, OrderingFilter
 
-from myapp.api.serializers import TaskSerializer, TaskCreateSerializer
+from myapp.api.serializers import TaskSerializer, TaskCreateSerializer, TaskChangeSerializer
 from myapp.api.permissions import UserDefinition
 from myapp.models import Column
 
@@ -35,10 +35,23 @@ class TaskInfoAPIView(generics.RetrieveAPIView):
 
 
 class TaskChangeAPIView(generics.RetrieveAPIView):
-    quryset = Column.objects.all()
+    queryset = Column.objects.all()
     serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticated, UserDefinition]
 
+
+class TaskDeleteAPIView(generics.RetrieveDestroyAPIView):
+    queryset = Column.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = [permissions.IsAdminUser]
+
+
+class TaskChangeAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Column.objects.all()
+    serializer_class = TaskChangeSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    # def perform_update(self, serializer):
 
 
 
