@@ -15,6 +15,5 @@ urlpatterns = [
     path('tasks/task_change/<int:pk>/', TaskChangeView.as_view(), name='change'),
     path('tasks/task_up/<int:pk>/', TaskUpView.as_view(), name='up'),
     path('tasks/task_down/<int:pk>/', TaskDownView.as_view() , name='down'),
-    path('tasks/task_delete/<int:pk>/', TaskDeleteView.as_view(), name='delete')
-
+    path('tasks/task_delete/<int:pk>/', TaskDeleteView.as_view(), name='delete'),
 ]
