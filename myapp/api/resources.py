@@ -53,6 +53,10 @@ class TaskChangeAPIView(generics.RetrieveAPIView):
                     else:
                         message = f"Only ADMIN can choose executor! Enter your name '{user}' or 'null'"
                         raise exceptions.PermissionDenied(message)
+                else:
+                    serializer.save(executor=executor_obj)
+        else:
+            serializer.save()
 
 
 class TaskDeleteAPIView(generics.RetrieveDestroyAPIView):
@@ -66,7 +70,30 @@ class TaskStatusChangeAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = TaskChangeSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    # def perform_update(self, serializer):
+    def perform_update(self, serializer):
+        user = self.request.user
+        obj = self.get_object()
+        status = obj.status
+        request_url = str(serializer.context['request'])
+        if user and user.is_authenticated:
+            if not user.is_superuser and obj.owner != obj.executor:
+                message = "You cannot change the status! Does this require Admin rights or you must be the owner."
+                raise exceptions.PermissionDenied(message)
+            if 'task_up' in request_url:
+                if not user.is_superuser and obj.status == 4 or user.is_superuser and obj.status == 5:
+                    raise exceptions.ValidationError("You are not allowed to upgrade!")
+                if not user.is_superuser and obj.owner == obj.executor and 4 > obj.status >= 1 or user.is_superuser \
+                        and obj.status == 4:
+                    status += 1
+            elif 'task_down' in request_url:
+                if not user.is_superuser and obj.status == 1 or user.is_superuser and obj.status == 4:
+                    raise exceptions.ValidationError("You are not allowed to downgrade!")
+                if not user.is_superuser and obj.owner == obj.executor and 4 >= obj.status > 1 or user.is_superuser \
+                        and obj.status == 5:
+                    status -= 1
+            serializer.save(status=status)
+        else:
+            serializer.save()
 
 
 
