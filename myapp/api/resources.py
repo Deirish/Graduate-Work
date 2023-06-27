@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, exceptions
 from rest_framework.filters import SearchFilter, OrderingFilter
 from myapp.api.serializers import TaskSerializer, TaskCreateSerializer, TaskChangeSerializer
 from myapp.api.permissions import UserDefinition
@@ -38,8 +38,21 @@ class TaskChangeAPIView(generics.RetrieveAPIView):
     serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticated, UserDefinition]
 
-    # def perform_update(self, serializer):
-    #     obj = self.get_object()
+    def perform_update(self, serializer):
+        obj = self.get_object()
+        user = self.request.user
+        if 'executor' in serializer.validated_data:
+            executor = serializer.validated_data['executor']
+            if executor == 'null':
+                serializer.save(executor=None)
+            else:
+                executor_obj = User.objects.get(username=executor)
+                if not user.is_superuser:
+                    if user == obj.owner == executor_obj:
+                        serializer.save(executor=executor_obj)
+                    else:
+                        message = f"Only ADMIN can choose executor! Enter your name '{user}' or 'null'"
+                        raise exceptions.PermissionDenied(message)
 
 
 class TaskDeleteAPIView(generics.RetrieveDestroyAPIView):

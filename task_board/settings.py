@@ -50,6 +50,8 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'myapp.middlewares.AutoLogout',
+    'myapp.middlewares.ActionUser',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -128,6 +130,8 @@ STATIC_ROOT = [
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+INACTIVITY_TIME = 60
 
 # TIME_TOKEN = 60 * 1
 
