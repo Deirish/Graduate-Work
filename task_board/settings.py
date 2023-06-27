@@ -133,7 +133,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 INACTIVITY_TIME = 60
 
-# TIME_TOKEN = 60 * 1
+TIME_TOKEN = 60 * 1
 
 LOGIN_URL = '/'
 
@@ -147,8 +147,8 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
 
-    # 'DEFAULT_AUTHENTICATION_CLASSES': [
-    #     'myapp.api.authentication.TokenExpiredAuthentication',
-    # ]
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'myapp.api.authentication.TokenExpiredAuthentication',
+    ]
 }
 
