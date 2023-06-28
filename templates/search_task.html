@@ -6,7 +6,9 @@
             <button type="submit">Search</button>
         </form>
         {% for obj in object_list %}
-            <div class="object_task" status = {{ obj.status }}>
+            <div class="object_task">
+                <h4>Owner: {{ obj.owner }}</h4>
+                <h4>Executor: {{ obj.executor }}</h4>
                 <h3>{{ obj.text }}</h3>
                 <p>Last update was {{ obj.date_update }} {{ obj.id }}</p>
                 {% if user.is_authenticated %}

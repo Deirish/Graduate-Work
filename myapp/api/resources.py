@@ -51,7 +51,7 @@ class TaskChangeAPIView(generics.RetrieveAPIView):
                     if user == obj.owner == executor_obj:
                         serializer.save(executor=executor_obj)
                     else:
-                        message = f"Only ADMIN can choose executor! Enter your name '{user}' or 'null'"
+                        message = f"Enter your name '{user}' or 'null'"
                         raise exceptions.PermissionDenied(message)
                 else:
                     serializer.save(executor=executor_obj)
@@ -77,7 +77,7 @@ class TaskStatusChangeAPIView(generics.RetrieveUpdateAPIView):
         request_url = str(serializer.context['request'])
         if user and user.is_authenticated:
             if not user.is_superuser and obj.owner != obj.executor:
-                message = "You cannot change the status! Does this require Admin rights or you must be the owner."
+                message = "You cannot change the status! You must be the owner."
                 raise exceptions.PermissionDenied(message)
             if 'task_up' in request_url:
                 if not user.is_superuser and obj.status == 4 or user.is_superuser and obj.status == 5:

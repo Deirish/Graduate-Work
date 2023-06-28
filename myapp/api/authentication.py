@@ -12,7 +12,7 @@ class TokenExpiredAuthentication(TokenAuthentication):
             user, token = authenticate
         else:
             return authenticate
-        if not user.is_staff:
+        if not user.is_superuser:
             if (timezone.now() - token.created).seconds > settings.TIME_TOKEN:
                 token.delete()
                 message = "Your token is not working! Create a new one."
